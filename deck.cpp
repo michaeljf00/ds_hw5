@@ -81,6 +81,7 @@ bool ReversePrimaryOrder(Node* deck1, Node* deck2){
     return true;
 }
 
+// Copy the contents of the original deck
 Node* CopyDeck(Node* deck){
     Node* new_deck = NULL; 
     Node* old_curr = deck;
@@ -93,4 +94,60 @@ Node* CopyDeck(Node* deck){
         old_curr = old_curr->after;
   }
   return new_deck;
+}
+
+// Recursive delete function
+void DeleteAll(Node* &deck){
+    if (deck != NULL){
+        DeleteAll(deck->after);
+        delete deck;
+        deck = NULL;
+    }
+}
+
+// Cut deck functions to split the deck in half
+void CutDeck(Node* &deck, Node* &cut1, Node* &cut2, const std::string &type){
+    Node* curr = deck;
+    std::string current_suit;
+    int current_face_value;
+    int deck_size = DeckSize(deck);
+    int count = 1;
+    if (type == "perfect"){
+        while (curr != NULL){
+            current_suit = curr->getCard().getSuit();
+            current_face_value = curr->getCard().getCard();
+            if (count <= deck_size/2){
+                DeckPushBackCard(cut1, current_suit, current_face_value);
+            } else {
+                DeckPushBackCard(cut2, current_suit, current_face_value);
+            }
+            curr = curr->after;
+            count++;
+        }
+    }
+}
+
+Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
+    Node* shuffled_deck = NULL;
+    std::string current_suit;
+    int current_face_value;
+    int count = 1;
+    int size = DeckSize(cut1) + DeckSize(cut2);
+    if (type == "perfect"){
+        while (count <= size){ 
+            if (count % 2 == 0){
+                current_suit = cut1->getCard().getSuit();
+                current_face_value = cut1->getCard().getCard();
+                cut1 = cut1->after;
+            } else {
+                current_suit = cut2->getCard().getSuit();
+                current_face_value = cut2->getCard().getCard();
+                cut2 = cut2->after;
+            }
+            DeckPushBackCard(shuffled_deck, current_suit, \
+            current_face_value);
+            count++; 
+        }
+    }
+    return shuffled_deck;
 }
