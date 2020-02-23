@@ -1,4 +1,3 @@
-
 HW 5 Coding To-Do list:
 
 Create Functions:
