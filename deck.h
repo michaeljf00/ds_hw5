@@ -14,6 +14,7 @@ void PrintDeckSorted(const std::string &description, Node* deck);
 int DeckSize(Node* deck);
 bool SamePrimaryOrder(Node* deck1, Node* deck2);
 bool ReversePrimaryOrder(Node* deck1, Node* deck2);
+Node* CopyDeck(Node* deck);
 
 // ==================================================================================
 //

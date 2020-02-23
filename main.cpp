@@ -445,16 +445,22 @@ void StudentTests() {
   std::cout << "In StudentTests" << std::endl;
   Node* deck1 = CreateDeck(21);
   Node* deck2 = CreateDeck(21);
+  Node* deck1_copy = CopyDeck(deck1);
   int deck_size = DeckSize(deck1);
   PrintDeckPrimary(" Primary test: ", deck1);
   PrintDeckSorted(" Sorted test: ", deck1);
-  std::cout << "deck1" << " & " << "deck1_copy";
-  if (SamePrimaryOrder(deck1, deck1)){
+  std::cout << "deck1" << " & " << "deck2";
+  if (SamePrimaryOrder(deck1, deck2)){
       std::cout << " are in same primary order" << std::endl;
   } else {
       std::cout << " are in not the same primary order" << std::endl;
   }
-
+  std::cout << "deck1" << " & " << "deck1_copy";
+  if (SamePrimaryOrder(deck1, deck1_copy)){
+      std::cout << " are in same primary order" << std::endl;
+  } else {
+      std::cout << " are in not the same primary order" << std::endl;
+  }
   //
   // You should add your own tests here
   // 

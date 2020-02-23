@@ -80,3 +80,17 @@ bool ReversePrimaryOrder(Node* deck1, Node* deck2){
     }
     return true;
 }
+
+Node* CopyDeck(Node* deck){
+    Node* new_deck = NULL; 
+    Node* old_curr = deck;
+    std::string current_suit;
+    int current_face_value;
+    while (old_curr != NULL) {
+        current_suit = old_curr->getCard().getSuit();
+        current_face_value = old_curr->getCard().getCard();
+        DeckPushBackCard(new_deck, current_suit, current_face_value); 
+        old_curr = old_curr->after;
+  }
+  return new_deck;
+}
