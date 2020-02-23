@@ -1,0 +1,13 @@
+HW 5 Coding To-Do list:
+
+Create Functions:
+1. DeckSize (Done)
+2. PrintDeckSorted (In Progress)
+3. SamePrimaryOrder (Done?)
+4. ReversePrimaryOrder
+5. CopyDeck
+6. DeleteAll
+7. CutDeck
+8. Shuffle
+9. Deal
+10. SortHand
