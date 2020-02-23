@@ -49,3 +49,7 @@ bool SamePrimaryOrder(Node* deck1, Node* deck2){
     }
     return true;
 }
+
+bool ReversePrimaryOrder(Node* deck1, Node* deck2){
+    
+}
