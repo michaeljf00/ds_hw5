@@ -452,6 +452,9 @@ void StudentTests() {
   Node* hands[4];
   int deck_size = DeckSize(deck1);
 
+  //Test DeckSize function (deck size of deck1)
+  std::cout << deck_size << std::endl;
+
   // Print deck1 primary and seocndary sorted
   PrintDeckPrimary(" Primary test: ", deck1);
   std::cout << " deck1" << " & " << "deck2";
@@ -517,7 +520,6 @@ void StudentTests() {
   DeleteAll(hands[2]);
   DeleteAll(hands[3]);
 
-  std::cout << deck_size << std::endl;
   std::cout << std::endl;
 }
 
