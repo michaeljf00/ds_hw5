@@ -159,20 +159,46 @@ Node* SortHand(Node* deck){
         Node* curr = deck;
         deck = deck->after;
         if (sorted_hand == NULL || curr->getCard() < sorted_hand->getCard()){
-            curr->after = sorted_hand;
+            curr->sorted_next = sorted_hand;
             sorted_hand = curr;
         } else {
             Node* pos = sorted_hand;
             while (pos != NULL){
-                if (pos->after == NULL ||\
-                sorted_hand->getCard() < pos->after->getCard()){
-                curr->after = pos->after;
-                pos->after = curr;
-                break;
+                if (pos->sorted_next == NULL ||
+                sorted_hand->getCard() < pos->sorted_next->getCard()){
+                    curr->sorted_next = pos->sorted_next;
+                    pos->sorted_next = curr;
+                    break;
                 }
-                pos = pos->after;
+                pos = pos->sorted_next;
             }
         }
     }
     return sorted_hand;
 }
+
+void Deal(Node* &deck, Node** hands, int num_hands,\
+const std::string &type, int num_cards){
+    int i = 0;
+    std::string current_suit;
+    int current_face_value;
+    int count = 0;
+    int total = num_cards * num_hands;
+    for (int j = 0; j < num_hands; j++){
+        hands[j] = NULL;
+    }
+    if (type == "one-at-a-time"){
+        while (deck != NULL){
+            current_face_value = deck->getCard().getCard();
+            current_suit = deck->getCard().getSuit();
+            if (i == num_hands) i = 0;
+            DeckPushBackCard(hands[i], current_suit, current_face_value);
+            deck = deck->after;
+            delete deck->before;
+            i++;
+            count++;
+            if (count == total) break;
+        }
+    }
+}
+    

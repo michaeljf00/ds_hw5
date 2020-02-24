@@ -448,27 +448,33 @@ void StudentTests() {
   Node* deck2 = CreateDeck(21);
   Node* deck3 = CreateDeck(30);
   Node* deck1_copy = CopyDeck(deck1);
+  Node* deck4 = CreateDeck(52);
+  Node* hands[4];
   int deck_size = DeckSize(deck1);
+
   // Print deck1 primary and seocndary sorted
   PrintDeckPrimary(" Primary test: ", deck1);
-  PrintDeckSorted(" Sorted test: ", deck1);
-  std::cout << "deck1" << " & " << "deck2";
+  std::cout << " deck1" << " & " << "deck2";
+
   // Test if deck1 and deck2 are in same primary order
   if (SamePrimaryOrder(deck1, deck2)){
       std::cout << " are in same primary order" << std::endl;
   } else {
       std::cout << " are in not the same primary order" << std::endl;
   }
-  std::cout << "deck1" << " & " << "deck1_copy";
+  std::cout << " deck1" << " & " << "deck1_copy";
+
   // Test if deck1 and deck1_copy are in same primary order
   if (SamePrimaryOrder(deck1, deck1_copy)){
       std::cout << " are in same primary order" << std::endl;
   } else {
       std::cout << " are in not the same primary order" << std::endl;
   }
+
   // Create top and bottom decks for cutting
   Node* top1 = NULL;
   Node* bottom1 = NULL;
+
   // Test CutDeck functions
   CutDeck(deck3, top1, bottom1, "perfect");
 
@@ -487,19 +493,30 @@ void StudentTests() {
 
   //Test SortHand function
   Node* sorted_hand = SortHand(top1);
-  PrintDeckPrimary(" SORT TEST: ", sorted_hand);
+  PrintDeckSorted(" Sorted test: ", sorted_hand);
+
+  //Test Deal function
+  Deal(deck4, hands, 4, "one-at-a-time", 11);
+  std::cout << DeckSize(hands[0]) << std::endl;
+  std::cout << DeckSize(hands[1]) << std::endl;
+  std::cout << DeckSize(hands[2]) << std::endl;
+  std::cout << DeckSize(hands[3]) << std::endl;
 
   // Delete decks and deallocate memory
   DeleteAll(deck1);     
   DeleteAll(deck2);     
   DeleteAll(deck3);
+  DeleteAll(deck4);
   DeleteAll(deck1_copy); 
   DeleteAll(top1);
   DeleteAll(bottom1);
   DeleteAll(deck3_out_shuffle);
   DeleteAll(deck3_in_shuffle);
+  DeleteAll(hands[0]);
+  DeleteAll(hands[1]);
+  DeleteAll(hands[2]);
+  DeleteAll(hands[3]);
 
-    
   std::cout << deck_size << std::endl;
   std::cout << std::endl;
 }
