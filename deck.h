@@ -18,6 +18,7 @@ Node* CopyDeck(Node* deck);
 void DeleteAll(Node* &deck);
 void CutDeck(Node* &deck, Node* &cut1, Node* &cut2, const std::string &type);
 Node* Shuffle(Node* cut1, Node* cut2, const std::string &type);
+Node* SortHand(Node* deck);
 
 // ==================================================================================
 //

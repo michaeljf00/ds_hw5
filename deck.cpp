@@ -151,3 +151,28 @@ Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
     }
     return shuffled_deck;
 }
+
+Node* SortHand(Node* deck){
+    if (deck == NULL && deck->after == NULL) return deck;
+    Node* sorted_hand = NULL;
+    while (deck != NULL){
+        Node* curr = deck;
+        deck = deck->after;
+        if (sorted_hand == NULL || curr->getCard() < sorted_hand->getCard()){
+            curr->after = sorted_hand;
+            sorted_hand = curr;
+        } else {
+            Node* pos = sorted_hand;
+            while (pos != NULL){
+                if (pos->after == NULL ||\
+                sorted_hand->getCard() < pos->after->getCard()){
+                curr->after = pos->after;
+                pos->after = curr;
+                break;
+                }
+                pos = pos->after;
+            }
+        }
+    }
+    return sorted_hand;
+}

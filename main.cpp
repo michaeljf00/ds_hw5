@@ -485,6 +485,10 @@ void StudentTests() {
   Node* deck3_in_shuffle = Shuffle(top1, bottom1, "perfect");
   PrintDeckPrimary(" deck3 in shuffle: ", deck3_in_shuffle);
 
+  //Test SortHand function
+  Node* sorted_hand = SortHand(top1);
+  PrintDeckPrimary(" SORT TEST: ", sorted_hand);
+
   // Delete decks and deallocate memory
   DeleteAll(deck1);     
   DeleteAll(deck2);     
