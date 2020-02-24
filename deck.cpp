@@ -127,6 +127,7 @@ void CutDeck(Node* &deck, Node* &cut1, Node* &cut2, const std::string &type){
     }
 }
 
+// Shuffle function
 Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
     Node* shuffled_deck = NULL;
     std::string current_suit;
@@ -152,31 +153,37 @@ Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
     return shuffled_deck;
 }
 
+// SortHand function
 Node* SortHand(Node* deck){
-    if (deck == NULL && deck->after == NULL) return deck;
     Node* sorted_hand = NULL;
-    while (deck != NULL){
-        Node* curr = deck;
-        deck = deck->after;
-        if (sorted_hand == NULL || curr->getCard() < sorted_hand->getCard()){
-            curr->sorted_next = sorted_hand;
-            sorted_hand = curr;
-        } else {
-            Node* pos = sorted_hand;
-            while (pos != NULL){
-                if (pos->sorted_next == NULL ||
-                sorted_hand->getCard() < pos->sorted_next->getCard()){
-                    curr->sorted_next = pos->sorted_next;
-                    pos->sorted_next = curr;
-                    break;
+    if (deck->after != NULL || deck != NULL){
+        int deck_size = DeckSize(deck);
+        Node* main;
+        Node* new_deck;
+        for (int count = 0; count < deck_size; count++){
+            main = deck;
+            deck = deck->after;
+            if (sorted_hand == NULL || \
+            main->getCard() < sorted_hand->getCard()){
+                main->sorted_next = sorted_hand;
+                sorted_hand = main;
+            } else {
+                for (new_deck = sorted_hand; new_deck != NULL; \
+                new_deck = new_deck->sorted_next){
+                    if (new_deck->sorted_next == NULL ||
+                    sorted_hand->getCard() < new_deck->sorted_next->getCard()){
+                        main->sorted_next = new_deck->sorted_next;
+                        new_deck->sorted_next = main;
+                        break;
+                    }
                 }
-                pos = pos->sorted_next;
             }
         }
-    }
+    } else return deck;
     return sorted_hand;
 }
 
+// Deal funciton
 void Deal(Node* &deck, Node** hands, int num_hands,\
 const std::string &type, int num_cards){
     int i = 0;
