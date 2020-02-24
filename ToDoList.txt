@@ -4,10 +4,10 @@ Create Functions:
 1. DeckSize (Done)
 2. PrintDeckSorted (In Progress)
 3. SamePrimaryOrder (Done?)
-4. ReversePrimaryOrder (Done? Need to make shuffle)
-5. CopyDeck
-6. DeleteAll
-7. CutDeck
-8. Shuffle
+4. ReversePrimaryOrder (Done? Need to make Shuffle)
+5. CopyDeck (Done)
+6. DeleteAll (Done)
+7. CutDeck (Done?)
+8. Shuffle (Done)
 9. Deal
 10. SortHand

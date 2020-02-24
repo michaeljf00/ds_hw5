@@ -15,6 +15,12 @@ int DeckSize(Node* deck);
 bool SamePrimaryOrder(Node* deck1, Node* deck2);
 bool ReversePrimaryOrder(Node* deck1, Node* deck2);
 Node* CopyDeck(Node* deck);
+void DeleteAll(Node* &deck);
+void CutDeck(Node* &deck, Node* &cut1, Node* &cut2, const std::string &type);
+Node* Shuffle(Node* cut1, Node* cut2, const std::string &type);
+Node* SortHand(Node* deck);
+void Deal(Node* &deck, Node** hands , int num_hands,\
+const std::string &type, int num_cards);
 
 // ==================================================================================
 //
