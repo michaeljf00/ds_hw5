@@ -32,8 +32,8 @@ void PrintDeckSorted(const std::string &description, Node* deck){
     while (tmp != NULL) {
         std::cout << " " << tmp->getCard().getString();
         tmp = tmp->sorted_next;
-  }
-  std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 // Check if deck1 is same primary order as deck2
@@ -67,7 +67,6 @@ bool ReversePrimaryOrder(Node* deck1, Node* deck2){
         prev2 = curr2;
         curr2 = after2;
     }
-    deck2 = NULL;
 
     // Loop through both lists and see if every value is equal after reverse
     while (curr1 != NULL){
@@ -76,7 +75,7 @@ bool ReversePrimaryOrder(Node* deck1, Node* deck2){
             return false;
         }
         curr1 = curr1->after;
-        curr2 = curr2->after;
+        curr2 = curr2->before;
     }
     return true;
 }
@@ -97,17 +96,19 @@ Node* CopyDeck(Node* deck){
 }
 
 // Recursive delete function
-void DeleteAll(Node* &deck){
+void DeleteAllCards(Node* &deck){
     if (deck != NULL){
-        DeleteAll(deck->after);
+        DeleteAllCards(deck->after);
         delete deck;
         deck = NULL;
-    }
+    } 
 }
 
 // Cut deck functions to split the deck in half
 void CutDeck(Node* &deck, Node* &cut1, Node* &cut2, const std::string &type){
     Node* curr = deck;
+    cut1 = NULL;
+    cut2 = NULL;
     std::string current_suit;
     int current_face_value;
     int deck_size = DeckSize(deck);
@@ -137,13 +138,13 @@ Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
     if (type == "perfect"){
         while (count <= size){ 
             if (count % 2 == 0){
-                current_suit = cut1->getCard().getSuit();
-                current_face_value = cut1->getCard().getCard();
-                cut1 = cut1->after;
-            } else {
                 current_suit = cut2->getCard().getSuit();
                 current_face_value = cut2->getCard().getCard();
                 cut2 = cut2->after;
+            } else {
+                current_suit = cut1->getCard().getSuit();
+                current_face_value = cut1->getCard().getCard();
+                cut1 = cut1->after;
             }
             DeckPushBackCard(shuffled_deck, current_suit, \
             current_face_value);
@@ -154,58 +155,73 @@ Node* Shuffle(Node* cut1, Node* cut2, const std::string &type){
 }
 
 // SortHand function
+
 Node* SortHand(Node* deck){
-    Node* sorted_hand = NULL;
-    if (deck->after != NULL || deck != NULL){
-        int deck_size = DeckSize(deck);
-        Node* main;
-        Node* new_deck;
-        for (int count = 0; count < deck_size; count++){
-            main = deck;
+    // If statement checks if the size of list is one or zero
+    if (deck->after == NULL || deck == NULL) return deck;
+        // After variables initialize, for loop commences
+        // to start appending nodes from deck to the new sorted deck
+        Node* tmp_deck;
+        Node* curr_card;
+        Node* new_deck = NULL;
+        while (deck != NULL){
+            curr_card = deck;
             deck = deck->after;
-            if (sorted_hand == NULL || \
-            main->getCard() < sorted_hand->getCard()){
-                main->sorted_next = sorted_hand;
-                sorted_hand = main;
+            // Checks if card in deck is less than card in sorted deck
+            // and if the card on the sorted deck is NULL
+            if (new_deck == NULL ||\
+                curr_card->getCard() < new_deck->getCard()){
+                curr_card->sorted_next = new_deck;
+                new_deck = curr_card;
+                new_deck->sorted_prev = NULL;
             } else {
-                for (new_deck = sorted_hand; new_deck != NULL; \
-                new_deck = new_deck->sorted_next){
-                    if (new_deck->sorted_next == NULL ||
-                    sorted_hand->getCard() < new_deck->sorted_next->getCard()){
-                        main->sorted_next = new_deck->sorted_next;
-                        new_deck->sorted_next = main;
+                // Loop through to check at what new_cardoint value is higher
+                // than the curent card from the deck
+                tmp_deck = new_deck;
+                for (tmp_deck = new_deck; tmp_deck != NULL;\
+                tmp_deck = tmp_deck->sorted_next){
+                    if (tmp_deck->sorted_next == NULL ||
+                    curr_card->getCard() < tmp_deck->sorted_next->getCard()){
+                        curr_card->sorted_next = tmp_deck->sorted_next;
+                        tmp_deck->sorted_next = curr_card;
+                        tmp_deck->sorted_next->sorted_prev = tmp_deck;
                         break;
                     }
                 }
             }
         }
-    } else return deck;
-    return sorted_hand;
+    return new_deck;
 }
 
+
+
 // Deal funciton
+
 void Deal(Node* &deck, Node** hands, int num_hands,\
 const std::string &type, int num_cards){
     int i = 0;
     std::string current_suit;
     int current_face_value;
     int count = 0;
+    int deck_size = DeckSize(deck);
     int total = num_cards * num_hands;
+    Node* old_deck;
     for (int j = 0; j < num_hands; j++){
         hands[j] = NULL;
     }
     if (type == "one-at-a-time"){
-        while (deck != NULL){
+        while (count < total){
+            old_deck = deck;
             current_face_value = deck->getCard().getCard();
             current_suit = deck->getCard().getSuit();
             if (i == num_hands) i = 0;
             DeckPushBackCard(hands[i], current_suit, current_face_value);
             deck = deck->after;
-            delete deck->before;
+            delete old_deck;
+            old_deck = NULL;
             i++;
             count++;
-            if (count == total) break;
         }
+        if (deck == NULL && total == deck_size) delete deck;
     }
 }
-    
