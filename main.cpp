@@ -157,7 +157,7 @@ Node* CreateDeck(int numCards) {
 // existing Nodes.
 //
 void DeckPushBackCard(Node* &deck, const std::string& suit, int num) {
-  assert(SanityCheckPrimary(deck));
+  assert(SanityCheckPrimary(deck)); 
   if (deck == NULL) {
     // handle an empty deck
     deck = new Node(PlayingCard(suit,num));
@@ -196,8 +196,9 @@ void PrintDeckPrimary(const std::string &description, Node* deck) {
 // TEST OF PERFECT IN/OUT SHUFFLE
 // =================================================================
 
-/*
+
 int PerfectShuffleTest(int numCards, bool out_shuffle) {
+  
   if (out_shuffle) {
     std::cout << "In PerfectOutShuffleTest, numCards = " << numCards << std::endl;
   } else {
@@ -218,6 +219,7 @@ int PerfectShuffleTest(int numCards, bool out_shuffle) {
   // repeatedly cut, shuffle & compare the deck to the original
   Node *top, *bottom;
   int numShuffles = 0;
+
   while(1) {
     assert (SanityCheckPrimary(deck));
     CutDeck(deck,top,bottom,"perfect");
@@ -242,6 +244,7 @@ int PerfectShuffleTest(int numCards, bool out_shuffle) {
       std::cout << "for deck size = " << numCards  << ", the deck is reversed after " 
                 << numShuffles  << " perfect in shuffles." << std::endl;
     }
+  
   }
 
   // output the results
@@ -256,15 +259,16 @@ int PerfectShuffleTest(int numCards, bool out_shuffle) {
   DeleteAllCards(deck2);
   std::cout << std::endl;
   return numShuffles;
+  
 }
-*/
+
 
 
 // =================================================================
 // TEST OF DEALING
 // =================================================================
 
-/*
+
 void DealingTest() {
   std::cout << "In DealingTest" << std::endl;
 
@@ -302,14 +306,15 @@ void DealingTest() {
   DeleteAllCards(hands[3]);
   std::cout << std::endl;
 }
-*/
+
 
 // =================================================================
 // TEST OF HAND SORTING
 // =================================================================
 
-/*
+
 void SortingTest() {
+  
   std::cout << "In SortingTest" << std::endl;
 
   // sort just a single suit (13 cards)
@@ -361,7 +366,7 @@ void SortingTest() {
   DeleteAllCards(deck);
   std::cout << std::endl;
 }
-*/
+
 
 // =================================================================
 // COMBINED SHUFFLE-DEALING-SORTING TEST
@@ -433,6 +438,7 @@ void ShuffleDealingSortingTest() {
   DeleteAllCards(hands[2]);
   DeleteAllCards(deck);
   std::cout << std::endl;
+  
 }
 */
 
@@ -475,8 +481,8 @@ void StudentTests() {
   }
 
   // Create top and bottom decks for cutting
-  Node* top1 = NULL;
-  Node* bottom1 = NULL;
+  Node* top1;
+  Node* bottom1;
 
   // Test CutDeck functions
   CutDeck(deck3, top1, bottom1, "perfect");
@@ -487,12 +493,12 @@ void StudentTests() {
 
   // Test Shuffle Function
   // Out Shuffle
-  Node* deck3_out_shuffle = Shuffle(bottom1, top1, "perfect");
-  PrintDeckPrimary(" deck3 out shuffle: ", deck3_out_shuffle);
+  Node* deck3_in_shuffle = Shuffle(bottom1, top1, "perfect");
+  PrintDeckPrimary(" deck3 in shuffle: ", deck3_in_shuffle);
 
   // In Shuffle
-  Node* deck3_in_shuffle = Shuffle(top1, bottom1, "perfect");
-  PrintDeckPrimary(" deck3 in shuffle: ", deck3_in_shuffle);
+  Node* deck3_out_shuffle = Shuffle(top1, bottom1, "perfect");
+  PrintDeckPrimary(" deck3 out shuffle: ", deck3_out_shuffle);
 
   //Test SortHand function
   Node* sorted_hand = SortHand(top1);
@@ -506,19 +512,19 @@ void StudentTests() {
   std::cout << DeckSize(hands[3]) << std::endl;
 
   // Delete decks and deallocate memory
-  DeleteAll(deck1);     
-  DeleteAll(deck2);     
-  DeleteAll(deck3);
-  DeleteAll(deck4);
-  DeleteAll(deck1_copy); 
-  DeleteAll(top1);
-  DeleteAll(bottom1);
-  DeleteAll(deck3_out_shuffle);
-  DeleteAll(deck3_in_shuffle);
-  DeleteAll(hands[0]);
-  DeleteAll(hands[1]);
-  DeleteAll(hands[2]);
-  DeleteAll(hands[3]);
+  DeleteAllCards(deck1);     
+  DeleteAllCards(deck2);     
+  DeleteAllCards(deck3);
+  DeleteAllCards(deck4);
+  DeleteAllCards(deck1_copy); 
+  DeleteAllCards(top1);
+  DeleteAllCards(bottom1);
+  DeleteAllCards(deck3_out_shuffle);
+  DeleteAllCards(deck3_in_shuffle);
+  DeleteAllCards(hands[0]);
+  DeleteAllCards(hands[1]);
+  DeleteAllCards(hands[2]);
+  DeleteAllCards(hands[3]);
 
   std::cout << std::endl;
 }
@@ -672,27 +678,30 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  /*
+  
   // PERFECT OUT SHUFFLE TEST CASES
+  /*
   int restore;
   restore = PerfectShuffleTest(8,true);
   assert (restore == 3);
   restore = PerfectShuffleTest(52,true);
   assert (restore == 8);
-
+  */
+  
+  /*
   // PERFECT IN SHUFFLE TEST CASES
   restore = PerfectShuffleTest(8,false);
   assert (restore == 6);
   restore = PerfectShuffleTest(52,false);
   assert (restore == 52);
-
+  */
   // DEALING & SORTING TESTS
   SortingTest();
   DealingTest();
-  ShuffleDealingSortingTest();
-
+  //ShuffleDealingSortingTest();
+  
   // STUDENT TESTS
-  */
+
   StudentTests();
 
   // RANDOMIZED SHUFFLING TESTS (EXTRA CREDIT)
