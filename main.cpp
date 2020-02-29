@@ -238,13 +238,13 @@ int PerfectShuffleTest(int numCards, bool out_shuffle) {
     // verify that the primary order of the deck is sound
     assert (SanityCheckPrimary(deck));
     PrintDeckPrimary("shuffle:",deck);
+    
     if (SamePrimaryOrder(deck,deck2))
       break;
     if (!out_shuffle && ReversePrimaryOrder(deck,deck2)) {
       std::cout << "for deck size = " << numCards  << ", the deck is reversed after " 
                 << numShuffles  << " perfect in shuffles." << std::endl;
     }
-  
   }
 
   // output the results
@@ -259,7 +259,7 @@ int PerfectShuffleTest(int numCards, bool out_shuffle) {
   DeleteAllCards(deck2);
   std::cout << std::endl;
   return numShuffles;
-  
+
 }
 
 
@@ -287,6 +287,7 @@ void DealingTest() {
   assert (DeckSize(hands[1]) == 13);
   assert (DeckSize(hands[2]) == 13);
   assert (DeckSize(hands[3]) == 13);
+  PrintDeckPrimary("north:",hands[2]);
   // verify that the structure of the sub-decks is sound
   assert (SanityCheckPrimary(hands[0]));
   assert (SanityCheckPrimary(hands[1]));
@@ -372,7 +373,7 @@ void SortingTest() {
 // COMBINED SHUFFLE-DEALING-SORTING TEST
 // =================================================================
 
-/*
+
 void ShuffleDealingSortingTest() {
 
   std::cout << "In ShuffleDealingSortingTest" << std::endl;
@@ -440,7 +441,7 @@ void ShuffleDealingSortingTest() {
   std::cout << std::endl;
   
 }
-*/
+
 
 // =================================================================
 // STUDENT TESTS
@@ -455,6 +456,7 @@ void StudentTests() {
   Node* deck3 = CreateDeck(30);
   Node* deck1_copy = CopyDeck(deck1);
   Node* deck4 = CreateDeck(52);
+  Node* deck5 = CreateDeck(26);
   Node* hands[4];
   int deck_size = DeckSize(deck1);
 
@@ -491,36 +493,37 @@ void StudentTests() {
   PrintDeckPrimary(" top1 deck: ", top1);
   PrintDeckPrimary(" bottom1 deck: ", bottom1);
 
-  // Test Shuffle Function
-  // Out Shuffle
-  Node* deck3_in_shuffle = Shuffle(bottom1, top1, "perfect");
-  PrintDeckPrimary(" deck3 in shuffle: ", deck3_in_shuffle);
 
-  // In Shuffle
-  Node* deck3_out_shuffle = Shuffle(top1, bottom1, "perfect");
-  PrintDeckPrimary(" deck3 out shuffle: ", deck3_out_shuffle);
-
-  //Test SortHand function
-  Node* sorted_hand = SortHand(top1);
-  PrintDeckSorted(" Sorted test: ", sorted_hand);
-
-  //Test Deal function
+  // Test Deal function
   Deal(deck4, hands, 4, "one-at-a-time", 11);
   std::cout << DeckSize(hands[0]) << std::endl;
   std::cout << DeckSize(hands[1]) << std::endl;
   std::cout << DeckSize(hands[2]) << std::endl;
   std::cout << DeckSize(hands[3]) << std::endl;
 
+  std::cout << std::endl;
+
+  Node* cut_deck1 = NULL;
+  Node* cut_deck2 = NULL;
+
+  //Test Random
+  CutDeck(deck5, cut_deck1, cut_deck2, "random");
+
+  PrintDeckPrimary(" cut1_deck (random): ", cut_deck1);
+  PrintDeckPrimary(" cut2_deck (random): ", cut_deck2);
+
+  Node* shuffled_deck = Shuffle(cut_deck1, cut_deck2, "random");
+
+  PrintDeckPrimary(" shuffled_deck (random): ", shuffled_deck);
+
   // Delete decks and deallocate memory
   DeleteAllCards(deck1);     
   DeleteAllCards(deck2);     
-  DeleteAllCards(deck3);
   DeleteAllCards(deck4);
+  DeleteAllCards(deck5);
   DeleteAllCards(deck1_copy); 
   DeleteAllCards(top1);
   DeleteAllCards(bottom1);
-  DeleteAllCards(deck3_out_shuffle);
-  DeleteAllCards(deck3_in_shuffle);
   DeleteAllCards(hands[0]);
   DeleteAllCards(hands[1]);
   DeleteAllCards(hands[2]);
@@ -533,7 +536,7 @@ void StudentTests() {
 // RANDOMIZED SHUFFLING TESTS (EXTRA CREDIT)
 // =================================================================
 
-/*
+
 void RandomizedShufflingTests() {
 
   std::cout << "In RandomizedShufflingTests" << std::endl;
@@ -640,7 +643,7 @@ void RandomizedShufflingTests() {
   DeleteAllCards(random_deck4);
   std::cout << std::endl;
 }
-*/
+
 
 // =================================================================
 // MAIN
@@ -680,30 +683,32 @@ int main(int argc, char* argv[]) {
 
   
   // PERFECT OUT SHUFFLE TEST CASES
-  /*
+  
   int restore;
+  
   restore = PerfectShuffleTest(8,true);
   assert (restore == 3);
   restore = PerfectShuffleTest(52,true);
   assert (restore == 8);
-  */
   
-  /*
+  
+  
   // PERFECT IN SHUFFLE TEST CASES
   restore = PerfectShuffleTest(8,false);
   assert (restore == 6);
   restore = PerfectShuffleTest(52,false);
   assert (restore == 52);
-  */
+
+  
   // DEALING & SORTING TESTS
   SortingTest();
   DealingTest();
-  //ShuffleDealingSortingTest();
+  ShuffleDealingSortingTest();
   
   // STUDENT TESTS
 
   StudentTests();
 
   // RANDOMIZED SHUFFLING TESTS (EXTRA CREDIT)
-  //RandomizedShufflingTests();
+  RandomizedShufflingTests();
 }
